@@ -1,0 +1,42 @@
+---
+import ChatShell from "./ChatShell";
+import "../styles/global.css";
+import "../styles/figma-layout.css";
+
+type Locale = "ar" | "en";
+
+interface Props {
+  locale: Locale;
+  query?: string | null;
+}
+
+const { locale, query } = Astro.props;
+const isArabic = locale === "ar";
+---
+
+<!doctype html>
+<html lang={locale} dir={isArabic ? "rtl" : "ltr"}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</title>
+  </head>
+  <body>
+    <main class="chat-page">
+      <header class="chat-page-header">
+        <a href={isArabic ? "/ar/" : "/en/"} class="brand-lockup">
+          <img src="/brand/Dalilah_main_logo.svg" alt="Dalilah" />
+        </a>
+        <nav class="site-nav">
+          <a href={isArabic ? "/en/chat/" : "/ar/chat/"}>{isArabic ? "English" : "العربية"}</a>
+          <a href={isArabic ? "/ar/" : "/en/"}>{isArabic ? "الرئيسية" : "Home"}</a>
+        </nav>
+      </header>
+      <section class="chat-page-content">
+        <p class="eyebrow">D A L I L A H · {isArabic ? "محادثة ذكية" : "AI CONVERSATION"}</p>
+        <h1>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</h1>
+        <ChatShell language={locale} initialMessage={query ?? ""} client:load />
+      </section>
+    </main>
+  </body>
+</html>

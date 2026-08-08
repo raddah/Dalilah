@@ -1,0 +1,6 @@
+---
+import ChatPage from "../../../components/ChatPage.astro";
+const query = Astro.url.searchParams.get("q");
+---
+
+<ChatPage locale="ar" query={query} />

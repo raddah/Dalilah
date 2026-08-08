@@ -1,0 +1,106 @@
+---
+import "../styles/global.css";
+import "../styles/figma-layout.css";
+
+type Locale = "ar" | "en";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isArabic = locale === "ar";
+const title = isArabic ? "دليلة — ذكاء التراث" : "Dalilah — Heritage Intelligence";
+const description = isArabic
+  ? "دليلك الذكي الموثوق للتراث والثقافة السعودية."
+  : "A grounded AI guide to Saudi heritage and culture.";
+const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
+---
+
+<!doctype html>
+<html lang={locale} dir={isArabic ? "rtl" : "ltr"}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="alternate" hreflang="ar" href="/ar/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main class="landing-page">
+      <header class="site-header">
+        <a class="brand-lockup" href={isArabic ? "/ar/" : "/en/"} aria-label="Dalilah home">
+          <img src="/brand/Dalilah_main_logo.svg" alt="Dalilah" />
+        </a>
+        <nav
+          class:list={["site-nav", { "is-arabic": isArabic }]}
+          aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}
+        >
+          <a href={chatPath}>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</a>
+          <a href="#about">{isArabic ? "عن دليلة" : "About"}</a>
+          <a
+            class="language-switch"
+            href={isArabic ? "/en/" : "/ar/"}
+            aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}
+            title={isArabic ? "Switch to English" : "التبديل إلى العربية"}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <path d="M3.8 12h16.4M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5s-1.1 6.2-3.3 8.5c-2.2-2.3-3.3-5.1-3.3-8.5S9.8 5.8 12 3.5Z"></path>
+            </svg>
+            <span class="visually-hidden">{isArabic ? "English" : "العربية"}</span>
+          </a>
+        </nav>
+      </header>
+
+      <section class="hero-section" id="about">
+        <p class="eyebrow">D A L I L A H · HERITAGE INTELLIGENCE</p>
+        <h1>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</h1>
+        <p class="hero-intro">
+          {isArabic
+            ? "دليلك الذكي الموثوق للتعرف على عمق التاريخ، روعة العمارة، وأصالة الثقافة في المملكة."
+            : "Your trusted intelligent guide to the depth of history, the beauty of architecture, and the culture of Saudi Arabia."}
+        </p>
+
+        <form class="hero-search" action={chatPath} method="get">
+          <input
+            name="q"
+            placeholder={isArabic ? "اكتب سؤالك عن التراث والثقافة السعودية..." : "Ask about Saudi heritage and culture..."}
+            aria-label={isArabic ? "سؤال دليلة" : "Ask Dalilah"}
+          />
+          <button type="submit" aria-label={isArabic ? "إرسال السؤال" : "Send question"}>
+            {isArabic ? "إرسال" : "Ask"}
+          </button>
+        </form>
+
+        <div class="quick-prompts">
+          <span>{isArabic ? "جرّب أن تسأل:" : "Try asking:"}</span>
+          <a href={`${chatPath}?q=${encodeURIComponent(isArabic ? "ما هي أهم المواقع التراثية؟" : "What are the most important heritage sites?")}`}>
+            {isArabic ? "أهم المواقع التراثية" : "Top heritage sites"}
+          </a>
+          <a href={`${chatPath}?q=${encodeURIComponent(isArabic ? "خطط لي زيارة ثقافية" : "Plan a cultural visit")}`}>
+            {isArabic ? "خطط لي زيارة ثقافية" : "Plan a cultural visit"}
+          </a>
+          <a href={`${chatPath}?q=${encodeURIComponent(isArabic ? "احك لي قصة مكان تاريخي" : "Tell me a heritage story")}`}>
+            {isArabic ? "احك لي قصة" : "Tell me a story"}
+          </a>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <span>Dalilah Heritage Guide © 2026</span>
+        <div>
+          <a href="#sources">{isArabic ? "المصادر" : "Sources"}</a>
+          <a href="#privacy">{isArabic ? "الخصوصية" : "Privacy"}</a>
+          <a href={chatPath}>{isArabic ? "ابدأ الاستكشاف" : "Start exploring"}</a>
+        </div>
+        <span class="footer-credit">
+          {isArabic
+            ? "صنع بحب ❤️ ضمن مبادرة أكاديمية طويق وقوقل للمطورين"
+            : "Made with love ❤️ as part of the Tuwaiq Academy and Google for Developers initiative"}
+        </span>
+      </footer>
+    </main>
+  </body>
+</html>
