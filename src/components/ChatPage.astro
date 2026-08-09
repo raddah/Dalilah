@@ -23,7 +23,7 @@ const isArabic = locale === "ar";
   </head>
   <body>
     <main class="chat-page">
-      <header class:list={["site-header", "chat-page-header"]}>
+      <header class:list={["site-header", "chat-page-header", { "is-arabic": isArabic }]}>
         <a href={isArabic ? "/ar/" : "/en/"} class="brand-lockup">
           <img src="/brand/Dalilah_main_logo.svg" alt="Dalilah" />
         </a>

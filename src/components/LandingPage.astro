@@ -29,7 +29,7 @@ const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
   </head>
   <body>
     <main class="landing-page">
-      <header class="site-header">
+      <header class:list={["site-header", { "is-arabic": isArabic }]}>
         <a class="brand-lockup" href={isArabic ? "/ar/" : "/en/"} aria-label="Dalilah home">
           <img src="/brand/Dalilah_main_logo.svg" alt="Dalilah" />
         </a>
