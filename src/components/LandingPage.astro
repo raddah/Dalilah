@@ -39,19 +39,19 @@ const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
         >
           <a href={chatPath}>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</a>
           <a href="#about">{isArabic ? "عن دليلة" : "About"}</a>
-          <a
-            class="language-switch"
-            href={isArabic ? "/en/" : "/ar/"}
-            aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}
-            title={isArabic ? "Switch to English" : "التبديل إلى العربية"}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="12" cy="12" r="8.5"></circle>
-              <path d="M3.8 12h16.4M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5s-1.1 6.2-3.3 8.5c-2.2-2.3-3.3-5.1-3.3-8.5S9.8 5.8 12 3.5Z"></path>
-            </svg>
-            <span class="visually-hidden">{isArabic ? "English" : "العربية"}</span>
-          </a>
         </nav>
+        <a
+          class="language-switch"
+          href={isArabic ? "/en/" : "/ar/"}
+          aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}
+          title={isArabic ? "Switch to English" : "التبديل إلى العربية"}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M3.8 12h16.4M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5s-1.1 6.2-3.3 8.5c-2.2-2.3-3.3-5.1-3.3-8.5S9.8 5.8 12 3.5Z"></path>
+          </svg>
+          <span class="language-label">{isArabic ? "English" : "العربية"}</span>
+        </a>
       </header>
 
       <section class="hero-section" id="about">
