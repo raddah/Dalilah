@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dalilah",
-  "compatibility_date": "2026-08-08",
+  "compatibility_date": "2026-06-02",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "binding": "ASSETS",
@@ -14,7 +14,7 @@
     {
       "binding": "DB",
       "database_name": "dalilah-db",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "eb4a8238-50cf-4c37-9001-595f601d9f82",
       "migrations_dir": "migrations"
     }
   ],
@@ -27,7 +27,7 @@
   "kv_namespaces": [
     {
       "binding": "CACHE",
-      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+      "id": "1f6da7a82e674bdcbef26820b58a92a2"
     }
   ],
   "vars": {
