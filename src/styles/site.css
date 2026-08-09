@@ -60,6 +60,24 @@
 .chat-page-content > h1 { margin: 0 0 28px; color: var(--ink); font-size: clamp(38px, 6vw, 62px); }
 .chat-page-content .chat-shell { min-height: 540px; padding: 24px 0; }
 .chat-page-content .conversation { min-height: 340px; }
+.answer-card { max-width: min(760px, 100%); margin: 0 auto 30px; padding: 22px; border: 1px solid #dfe6df; border-radius: 4px 22px 22px 22px; background: white; box-shadow: 0 12px 28px rgb(30 57 45 / 5%); }
+.answer-label { display: flex; align-items: center; gap: 9px; margin-bottom: 18px; color: var(--ink); font-weight: 600; }
+.answer-orb { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #f1c278; color: var(--deep-ink); font-size: 13px; }
+.answer-media { margin: 0 0 22px; }
+.answer-media img { display: block; width: 100%; max-height: 365px; object-fit: cover; border-radius: 12px; background: #edf2ed; }
+.answer-media figcaption { display: flex; justify-content: space-between; gap: 15px; padding: 10px 2px 0; color: var(--muted); font-size: 11px; }
+.answer-media figcaption a { color: var(--ink); text-decoration: none; }
+.answer-copy h2 { margin: 0 0 12px; color: var(--ink); font-size: 19px; }
+.answer-copy p { margin: 0; color: #586961; line-height: 2; white-space: pre-wrap; }
+.answer-sources { margin-top: 24px; padding-top: 16px; border-top: 1px solid #dfe6df; }
+.sources-label { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; color: #75847d; font-size: 12px; }
+.source-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.source-chips a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid #dfe6df; border-radius: 999px; background: #f4f7f3; color: var(--ink); font-size: 11px; text-decoration: none; }
+.source-chips a:hover { border-color: #b7caba; background: #edf4ed; }
+.source-chip-icon { display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: #d7e4d8; color: var(--deep-ink); font-size: 10px; }
+.source-chip-unesco { background: #dbe8ef; }
+.source-chip-official { background: #e7e0cc; }
+.source-chip-supporting { background: #e4e5df; }
 
 .about-page { min-height: 100vh; background: var(--paper); color: var(--deep-ink); }
 .about-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, .9fr); gap: clamp(35px, 7vw, 110px); align-items: center; width: min(1180px, 90vw); margin: 0 auto; padding: clamp(70px, 10vw, 130px) 0 110px; }

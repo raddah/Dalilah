@@ -87,4 +87,5 @@ h1 { margin: 0; color: var(--ink); font-size: clamp(54px, 7vw, 90px); line-heigh
   .chat-shell { padding: 24px 16px; }
   .answer-card { max-width: 100%; padding: 22px; }
   .user-bubble { max-width: 88%; }
+  .answer-media figcaption { align-items: flex-start; flex-direction: column; gap: 4px; }
 }

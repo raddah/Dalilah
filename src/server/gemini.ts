@@ -1,4 +1,4 @@
-import { ChatResponseSchema, type ChatResponse } from "../types/chat";
+import { ChatResponseSchema, type ChatResponse, type MediaAsset } from "../types/chat";
 
 type GeminiEnv = {
   GEMINI_API_KEY: string;
@@ -10,12 +10,14 @@ You are Dalilah, a trusted Saudi heritage guide.
 Answer in the user's language.
 Use only the supplied evidence for factual claims.
 Never invent historical facts, opening hours, locations, URLs, or citations.
+Only return media whose exact URL appears in the supplied availableMedia list.
+Never invent image URLs or image credits.
 If evidence is missing, clearly say that there is insufficient evidence.
 Return valid JSON matching the requested schema.
 `;
 
 export async function generateChatAnswer(
-  input: { message: string; evidence: string; language: "ar" | "en" },
+  input: { message: string; evidence: string; media: MediaAsset[]; language: "ar" | "en" },
   env: GeminiEnv,
 ): Promise<ChatResponse> {
   const model = env.GEMINI_MODEL || "gemini-3.5-flash";
@@ -38,6 +40,7 @@ export async function generateChatAnswer(
                 language: input.language,
                 question: input.message,
                 evidence: input.evidence,
+                availableMedia: input.media,
               }),
             },
           ],
@@ -65,6 +68,20 @@ export async function generateChatAnswer(
                   sourceType: { type: "string" },
                 },
                 required: ["title", "url", "sourceType"],
+              },
+            },
+            media: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  url: { type: "string" },
+                  alt: { type: "string" },
+                  title: { type: "string" },
+                  sourceTitle: { type: "string" },
+                  sourceUrl: { type: "string" },
+                },
+                required: ["url", "alt", "title", "sourceTitle", "sourceUrl"],
               },
             },
             suggestedPrompts: {
@@ -95,5 +112,10 @@ export async function generateChatAnswer(
   const text = payload.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("Gemini returned no text");
 
-  return ChatResponseSchema.parse(JSON.parse(text));
+  const parsed = ChatResponseSchema.parse(JSON.parse(text));
+  const allowedMedia = new Set(input.media.map((asset) => asset.url));
+  return {
+    ...parsed,
+    media: parsed.media.filter((asset) => allowedMedia.has(asset.url)),
+  };
 }

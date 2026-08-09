@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { askDalilah } from "../lib/api-client";
+import type { ChatResponse } from "../types/chat";
 
-type Answer = {
-  answer: string;
-  confidence: "high" | "medium" | "low";
-  citations: Array<{ title: string; url: string }>;
-  suggestedPrompts: string[];
-};
+type Answer = ChatResponse;
 
 type Language = "ar" | "en";
 
@@ -19,6 +15,7 @@ const copy = {
     send: "إرسال السؤال",
     loading: "جاري البحث...",
     requestError: "تعذر إكمال الطلب الآن",
+    sources: "المصادر المرجعية",
   },
   en: {
     sampleQuestion: "What is the historical importance of At-Turaif District?",
@@ -28,6 +25,7 @@ const copy = {
     send: "Send question",
     loading: "Searching...",
     requestError: "Unable to complete the request right now",
+    sources: "Reference sources",
   },
 } as const;
 
@@ -69,15 +67,32 @@ export default function ChatShell({
 
         {answer ? (
           <article className="answer-card">
-            <div className="answer-label">دليلة ✦</div>
-            <p>{answer.answer}</p>
-            <div className="answer-meta">
-              <span>{text.confidence}: {answer.confidence}</span>
-              {answer.citations.map((citation) => (
-                <a href={citation.url} target="_blank" rel="noreferrer" key={citation.url}>
-                  {citation.title}
-                </a>
-              ))}
+            <div className="answer-label"><span className="answer-orb" aria-hidden="true">✦</span>{language === "ar" ? "دليلة" : "Dalilah"}</div>
+            {answer.media[0] ? (
+              <figure className="answer-media">
+                <img src={answer.media[0].url} alt={answer.media[0].alt} />
+                <figcaption>
+                  <span>{answer.media[0].title}</span>
+                  <a href={answer.media[0].sourceUrl} target="_blank" rel="noreferrer">
+                    {answer.media[0].sourceTitle} ↗
+                  </a>
+                </figcaption>
+              </figure>
+            ) : null}
+            <div className="answer-copy">
+              <h2>{answer.media[0]?.title ?? (language === "ar" ? "إجابة موثقة" : "Grounded answer")}</h2>
+              <p>{answer.answer}</p>
+            </div>
+            <div className="answer-sources">
+              <div className="sources-label"><span aria-hidden="true">▧</span>{text.sources}</div>
+              <div className="source-chips">
+                {answer.citations.map((citation) => (
+                  <a href={citation.url} target="_blank" rel="noreferrer" key={citation.url}>
+                    <span className={`source-chip-icon source-chip-${citation.sourceType}`} aria-hidden="true">↗</span>
+                    {citation.title}
+                  </a>
+                ))}
+              </div>
             </div>
             <div className="suggested-prompts">
               {answer.suggestedPrompts.map((prompt) => (

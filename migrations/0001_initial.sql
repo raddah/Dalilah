@@ -24,6 +24,24 @@ CREATE TABLE IF NOT EXISTS sources (
   FOREIGN KEY (site_id) REFERENCES sites(id)
 );
 
+CREATE TABLE IF NOT EXISTS media_assets (
+  id TEXT PRIMARY KEY,
+  site_id TEXT,
+  source_id TEXT,
+  url TEXT NOT NULL,
+  title_ar TEXT NOT NULL,
+  title_en TEXT NOT NULL,
+  alt_ar TEXT NOT NULL,
+  alt_en TEXT NOT NULL,
+  source_title_ar TEXT NOT NULL,
+  source_title_en TEXT NOT NULL,
+  source_url TEXT NOT NULL,
+  last_verified TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (site_id) REFERENCES sites(id),
+  FOREIGN KEY (source_id) REFERENCES sources(id)
+);
+
 CREATE TABLE IF NOT EXISTS conversations (
   id TEXT PRIMARY KEY,
   language TEXT NOT NULL DEFAULT 'ar',
@@ -44,4 +62,5 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 
 CREATE INDEX IF NOT EXISTS idx_sources_search ON sources(title, description_ar, description_en);
+CREATE INDEX IF NOT EXISTS idx_media_assets_search ON media_assets(title_ar, title_en, alt_ar, alt_en);
 CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messages(conversation_id, created_at);

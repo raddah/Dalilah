@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 import { z } from "zod";
 import { generateChatAnswer } from "../../server/gemini";
-import { getEvidence } from "../../server/retrieval";
+import { getEvidence, getRelatedMedia } from "../../server/retrieval";
 import { saveConversation } from "../../server/conversations";
 
 const RequestSchema = z.object({
@@ -32,8 +32,9 @@ export const POST: APIRoute = async (context) => {
 
   try {
     const evidence = await getEvidence(appEnv.DB, body.message);
+    const media = await getRelatedMedia(appEnv.DB, body.message, body.language);
     const answer = await generateChatAnswer(
-      { message: body.message, language: body.language, evidence },
+      { message: body.message, language: body.language, evidence, media },
       appEnv,
     );
     const conversationId = body.conversationId ?? crypto.randomUUID();
