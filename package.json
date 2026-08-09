@@ -11,7 +11,8 @@
     "check": "astro check",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "validate:okf": "node scripts/validate-okf.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.2.0",
