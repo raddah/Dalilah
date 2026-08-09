@@ -12,6 +12,7 @@ interface Props {
 
 const { locale, query } = Astro.props;
 const isArabic = locale === "ar";
+const aboutPath = isArabic ? "/ar/about/" : "/en/about/";
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const isArabic = locale === "ar";
           aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}
         >
           <a href={isArabic ? "/ar/chat/" : "/en/chat/"}>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</a>
-          <a href={isArabic ? "/ar/#about" : "/en/#about"}>{isArabic ? "عن دليلة" : "About"}</a>
+          <a href={aboutPath}>{isArabic ? "عن دليلة" : "About"}</a>
         </nav>
         <a
           class="language-switch"

@@ -15,6 +15,7 @@ const description = isArabic
   ? "دليلك الذكي الموثوق للتراث والثقافة السعودية."
   : "A grounded AI guide to Saudi heritage and culture.";
 const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
+const aboutPath = isArabic ? "/ar/about/" : "/en/about/";
 ---
 
 <!doctype html>
@@ -38,7 +39,7 @@ const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
           aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}
         >
           <a href={chatPath}>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</a>
-          <a href="#about">{isArabic ? "عن دليلة" : "About"}</a>
+          <a href={aboutPath}>{isArabic ? "عن دليلة" : "About"}</a>
         </nav>
         <a
           class="language-switch"
@@ -90,7 +91,7 @@ const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
       <footer class="site-footer">
         <span>Dalilah Heritage Guide © 2026</span>
         <div>
-          <a href="#sources">{isArabic ? "المصادر" : "Sources"}</a>
+          <a href={`${aboutPath}#sources`}>{isArabic ? "المصادر" : "Sources"}</a>
           <a href="#privacy">{isArabic ? "الخصوصية" : "Privacy"}</a>
           <a href={chatPath}>{isArabic ? "ابدأ الاستكشاف" : "Start exploring"}</a>
         </div>

@@ -1,0 +1,193 @@
+---
+import "../styles/global.css";
+import "../styles/site.css";
+
+type Locale = "ar" | "en";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isArabic = locale === "ar";
+const homePath = isArabic ? "/ar/" : "/en/";
+const chatPath = isArabic ? "/ar/chat/" : "/en/chat/";
+const aboutPath = isArabic ? "/ar/about/" : "/en/about/";
+
+const sources = [
+  {
+    mark: "MOC",
+    category: isArabic ? "مرجع حكومي" : "Government reference",
+    name: isArabic ? "منصة التراث الثقافي" : "Cultural Heritage Platform",
+    description: isArabic ? "مرجع وزارة الثقافة للتراث الثقافي والمواقع والعناصر التراثية في المملكة." : "The Ministry of Culture reference for Saudi cultural heritage, sites, and heritage elements.",
+    href: "https://heritage.moc.gov.sa/"
+  },
+  {
+    mark: "JH",
+    category: isArabic ? "حفظ وتنمية" : "Preservation & development",
+    name: isArabic ? "برنامج جدة التاريخية" : "Historic Jeddah Program",
+    description: isArabic ? "يوثق جهود حماية جدة التاريخية وتأهيل مبانيها ونسيجها العمراني." : "Documents the preservation, rehabilitation, and urban fabric of Historic Jeddah.",
+    href: "https://jeddahalbalad.sa/ar"
+  },
+  {
+    mark: "BALAD",
+    category: isArabic ? "استكشاف" : "Explore",
+    name: isArabic ? "جدة التاريخية" : "Visit Al Balad",
+    description: isArabic ? "دليل للقصص والفعاليات والمعالم وتجارب الزائر في جدة التاريخية." : "A visitor guide to stories, events, landmarks, and experiences in Historic Jeddah.",
+    href: "https://www.visitalbalad.com/"
+  },
+  {
+    mark: "2030",
+    category: isArabic ? "إطار وطني" : "National framework",
+    name: isArabic ? "رؤية السعودية 2030" : "Saudi Vision 2030",
+    description: isArabic ? "الإطار الوطني الذي يربط الثقافة والتراث بالتنمية وجودة الحياة." : "The national framework connecting culture and heritage with development and quality of life.",
+    href: "https://www.vision2030.gov.sa/ar/explore"
+  },
+  {
+    mark: "JED",
+    category: isArabic ? "مصدر محلي" : "Local source",
+    name: isArabic ? "أمانة محافظة جدة" : "Jeddah Municipality",
+    description: isArabic ? "مصدر محلي للمعلومات المدنية والمكانية والخدمات المرتبطة بمدينة جدة." : "A local source for civic, spatial, and public-service information about Jeddah.",
+    href: "https://www.jeddah.gov.sa/"
+  },
+  {
+    mark: "UNESCO",
+    category: isArabic ? "تراث عالمي" : "World heritage",
+    name: isArabic ? "اليونسكو: العلا" : "UNESCO: AlUla",
+    description: isArabic ? "توثيق دولي لتراث العلا وواحتها ومجتمعاتها والبحوث المرتبطة بها." : "International documentation of AlUla’s heritage, oasis, communities, and research.",
+    href: "https://www.unesco.org/ar/alula"
+  },
+  {
+    mark: "ALULA",
+    category: isArabic ? "وجهة ثقافية" : "Cultural destination",
+    name: isArabic ? "تجربة العلا" : "Experience AlUla",
+    description: isArabic ? "معلومات الزائر عن المعالم والوجهات الثقافية والطبيعية في العلا." : "Visitor information about AlUla’s cultural and natural landmarks and destinations.",
+    href: "https://www.experiencealula.com/ar/places-to-go?size=n_9_n&filters%5B0%5D%5Bfield%5D=typeOfPlaces&filters%5B0%5D%5Bvalues%5D%5B0%5D=%D9%85%D8%B9%D8%A7%D9%84%D9%85%20%D8%A8%D8%A7%D8%B1%D8%B2%D8%A9&filters%5B0%5D%5Btype%5D=any&filters%5B0%5D%5Bpersistent%5D=false&sort%5B0%5D%5Bfield%5D=_score&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=recommendedRanking_double&sort%5B1%5D%5Bdirection%5D=desc"
+  },
+  {
+    mark: "SP",
+    category: isArabic ? "معرفة وطنية" : "National knowledge",
+    name: isArabic ? "سعوديبيديا" : "Saudipedia",
+    description: isArabic ? "موسوعة وطنية تساعد على تقديم سياق موجز عن مواقع التراث المسجلة في اليونسكو." : "A national encyclopedia providing concise context on Saudi heritage sites registered with UNESCO.",
+    href: "https://saudipedia.com/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D9%84%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%8A%D9%88%D9%86%D8%B3%D9%83%D9%88"
+  },
+  {
+    mark: "VISIT",
+    category: isArabic ? "سياحة رسمية" : "Official tourism",
+    name: isArabic ? "Visit Saudi" : "Visit Saudi",
+    description: isArabic ? "مرجع رسمي لاكتشاف الوجهات والتجارب السياحية في المملكة." : "The official reference for discovering destinations and tourism experiences across Saudi Arabia.",
+    href: "https://www.visitsaudi.com/"
+  },
+  {
+    mark: "WHC",
+    category: isArabic ? "قائمة التراث العالمي" : "World Heritage List",
+    name: isArabic ? "مركز التراث العالمي" : "World Heritage Centre",
+    description: isArabic ? "القائمة المرجعية الدولية للمواقع السعودية المدرجة ضمن التراث العالمي." : "The international reference list for Saudi sites inscribed on the World Heritage List.",
+    href: "https://whc.unesco.org/ar/list/?iso=sa&search="
+  }
+];
+---
+
+<!doctype html>
+<html lang={locale} dir={isArabic ? "rtl" : "ltr"}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={isArabic ? "تعرف على دليلة ومصادرها الموثوقة للتراث السعودي." : "Learn how Dalilah works and which trusted sources ground its Saudi heritage answers."} />
+    <link rel="alternate" hreflang="ar" href="/ar/about/" />
+    <link rel="alternate" hreflang="en" href="/en/about/" />
+    <title>{isArabic ? "عن دليلة — ذكاء التراث" : "About Dalilah — Heritage Intelligence"}</title>
+  </head>
+  <body>
+    <main class="about-page">
+      <header class:list={["site-header", { "is-arabic": isArabic }]}>
+        <a class="brand-lockup" href={homePath} aria-label="Dalilah home">
+          <img src="/brand/Dalilah_main_logo.svg" alt="Dalilah" />
+        </a>
+        <nav class:list={["site-nav", { "is-arabic": isArabic }]} aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}>
+          <a href={chatPath}>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</a>
+          <a class="active" href={aboutPath}>{isArabic ? "عن دليلة" : "About"}</a>
+        </nav>
+        <a class="language-switch" href={isArabic ? "/en/about/" : "/ar/about/"} aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"} title={isArabic ? "Switch to English" : "التبديل إلى العربية"}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M3.8 12h16.4M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5s-1.1 6.2-3.3 8.5-3.3-5.1-3.3-8.5S9.8 5.8 12 3.5Z"></path>
+          </svg>
+        </a>
+      </header>
+
+      <section class="about-hero">
+        <div class="about-hero-copy">
+          <p class="eyebrow">D A L I L A H · {isArabic ? "ذكاء التراث" : "HERITAGE INTELLIGENCE"}</p>
+          <h1>{isArabic ? "دليلة تحفظ الحكاية، وتقرّبها إليك." : "Dalilah keeps the story close."}</h1>
+          <p class="about-lead">
+            {isArabic
+              ? "دليلة مرشد ذكي ثنائي اللغة يساعدك على فهم تاريخ المملكة وثقافتها وعمارتها، بإجابات تستند إلى مصادر موثوقة وتبقى واضحة في أصلها." 
+              : "Dalilah is a bilingual intelligent guide to Saudi Arabia’s history, culture, and architecture, grounding every answer in sources you can trace."}
+          </p>
+          <div class="about-hero-actions">
+            <a class="primary-link" href={chatPath}>{isArabic ? "ابدأ بالسؤال" : "Start asking"}<span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#sources">{isArabic ? "استكشف المصادر" : "Explore the sources"}</a>
+          </div>
+        </div>
+        <div class="heritage-illustration-wrap">
+          <img class="heritage-illustration" src="/images/dalilah-heritage-hero.svg" alt={isArabic ? "رسم تجريدي لعمارة تراثية ونخلة في المشهد السعودي" : "Abstract illustration of heritage architecture and a palm in a Saudi landscape"} />
+          <div class="illustration-note"><span>01</span>{isArabic ? "من المكان إلى المعرفة" : "From place to knowledge"}</div>
+        </div>
+      </section>
+
+      <section class="about-section about-principles">
+        <div class="section-heading">
+          <p class="eyebrow">{isArabic ? "كيف تفكر دليلة" : "HOW DALILAH THINKS"}</p>
+          <h2>{isArabic ? "إجابة مفيدة تبدأ من أساس موثوق." : "A useful answer starts with trusted ground."}</h2>
+        </div>
+        <div class="principle-grid">
+          <article class="principle-card"><span class="principle-number">01</span><h3>{isArabic ? "تستند إلى المصدر" : "Grounded in sources"}</h3><p>{isArabic ? "لا تكتفي دليلة بإجابة تبدو مقنعة؛ بل تربط المعرفة بمراجع رسمية وتعرضها لك بوضوح." : "Dalilah does not stop at a plausible answer. It connects knowledge to official references and makes that trail visible."}</p></article>
+          <article class="principle-card"><span class="principle-number">02</span><h3>{isArabic ? "تفهم السياق" : "Rich in context"}</h3><p>{isArabic ? "تجمع بين التاريخ والمكان والعمارة والإنسان حتى لا تصبح المعلومة معزولة عن قصتها." : "History, place, architecture, and people come together so a fact is never separated from its story."}</p></article>
+          <article class="principle-card"><span class="principle-number">03</span><h3>{isArabic ? "تتحدث لغتك" : "Speaks your language"}</h3><p>{isArabic ? "تجربة عربية وإنجليزية مباشرة، مع الحفاظ على المعنى والاسم والسياق الثقافي في كل لغة." : "A direct Arabic and English experience that preserves meaning, names, and cultural context in both languages."}</p></article>
+        </div>
+      </section>
+
+      <section class="about-section evidence-section">
+        <div class="evidence-intro">
+          <p class="eyebrow">{isArabic ? "منهجية التوثيق" : "OUR EVIDENCE METHOD"}</p>
+          <h2>{isArabic ? "من المصدر إلى الإجابة في أربع خطوات." : "From source to answer in four steps."}</h2>
+          <p>{isArabic ? "صممت دليلة لتجعل المعرفة التراثية قابلة للتتبع، لا مجرد نص سريع. كلما احتاجت الإجابة إلى دليل، يعود النظام إلى قاعدة المصادر المعتمدة." : "Dalilah is designed to make heritage knowledge traceable, not just fast. When an answer needs evidence, the system returns to its approved source collection."}</p>
+        </div>
+        <ol class="method-list">
+          <li><span>01</span><div><strong>{isArabic ? "نجمع" : "Collect"}</strong><p>{isArabic ? "نختار صفحات ومراجع من جهات رسمية ومؤسسات موثوقة." : "We select pages and references from official bodies and trusted institutions."}</p></div></li>
+          <li><span>02</span><div><strong>{isArabic ? "ننظم" : "Organize"}</strong><p>{isArabic ? "نرتب المعلومات حسب المكان والزمن والموضوع والمصدر." : "We structure information by place, time, topic, and provenance."}</p></div></li>
+          <li><span>03</span><div><strong>{isArabic ? "نسترجع" : "Retrieve"}</strong><p>{isArabic ? "نبحث عن المقاطع الأقرب لسؤال المستخدم قبل صياغة الإجابة." : "We retrieve the passages closest to the user’s question before generating an answer."}</p></div></li>
+          <li><span>04</span><div><strong>{isArabic ? "نوثق" : "Cite"}</strong><p>{isArabic ? "نعرض المصادر ذات الصلة حتى تستطيع التحقق والمتابعة بنفسك." : "We show relevant sources so you can verify and continue exploring."}</p></div></li>
+        </ol>
+      </section>
+
+      <section class="about-section sources-section" id="sources">
+        <div class="section-heading sources-heading">
+          <div><p class="eyebrow">{isArabic ? "مراجع دليلة" : "DALILAH REFERENCES"}</p><h2>{isArabic ? "مصادر موثوقة، مفتوحة لك." : "Trusted sources, open to you."}</h2></div>
+          <p>{isArabic ? "هذه الجهات تمثل طبقة المصادر التي تعتمد عليها دليلة في بناء المعرفة حول التراث والثقافة والوجهات السعودية. افتح أي بطاقة للانتقال إلى الموقع الأصلي." : "These organizations form the source layer Dalilah uses to build knowledge about Saudi heritage, culture, and destinations. Open any card to visit the original site."}</p>
+        </div>
+        <div class="source-grid">
+          {sources.map((source) => (
+            <a class="source-card" href={source.href} target="_blank" rel="noreferrer">
+              <span class="source-mark" aria-hidden="true">{source.mark}</span>
+              <span class="source-card-body"><span class="source-category">{source.category}</span><strong>{source.name}</strong><span>{source.description}</span><em>{isArabic ? "زيارة المصدر" : "Visit source"} ↗</em></span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="about-cta">
+        <p class="eyebrow">{isArabic ? "المعرفة رحلة" : "KNOWLEDGE IS A JOURNEY"}</p>
+        <h2>{isArabic ? "اسأل دليلة، وابدأ من مكانك." : "Ask Dalilah, and begin where you are."}</h2>
+        <a class="primary-link" href={chatPath}>{isArabic ? "افتح المحادثة" : "Open the chat"}<span aria-hidden="true">↗</span></a>
+      </section>
+
+      <footer class="site-footer">
+        <span>Dalilah Heritage Guide © 2026</span>
+        <div><a href="#sources">{isArabic ? "المصادر" : "Sources"}</a><a href={homePath}>{isArabic ? "الرئيسية" : "Home"}</a><a href={chatPath}>{isArabic ? "ابدأ الاستكشاف" : "Start exploring"}</a></div>
+        <span class="footer-credit">{isArabic ? "صنع بحب ❤️ ضمن مبادرة أكاديمية طويق وقوقل للمطورين" : "Made with love ❤️ as part of the Tuwaiq Academy and Google for Developers initiative"}</span>
+      </footer>
+    </main>
+  </body>
+</html>
