@@ -28,6 +28,10 @@
     {
       "binding": "CACHE",
       "id": "1f6da7a82e674bdcbef26820b58a92a2"
+    },
+    {
+      "binding": "SESSION",
+      "id": "b8f4c498affc4017a9c0ad1eaed5780f"
     }
   ],
   "vars": {
