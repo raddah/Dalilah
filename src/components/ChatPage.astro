@@ -37,6 +37,19 @@ const isArabic = locale === "ar";
         <h1>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</h1>
         <ChatShell language={locale} initialMessage={query ?? ""} client:load />
       </section>
+      <footer class="site-footer">
+        <span>Dalilah Heritage Guide © 2026</span>
+        <div>
+          <a href={isArabic ? "/ar/#sources" : "/en/#sources"}>{isArabic ? "المصادر" : "Sources"}</a>
+          <a href={isArabic ? "/ar/#privacy" : "/en/#privacy"}>{isArabic ? "الخصوصية" : "Privacy"}</a>
+          <a href={isArabic ? "/ar/chat/" : "/en/chat/"}>{isArabic ? "ابدأ الاستكشاف" : "Start exploring"}</a>
+        </div>
+        <span class="footer-credit">
+          {isArabic
+            ? "صنع بحب ❤️ ضمن مبادرة أكاديمية طويق وقوقل للمطورين"
+            : "Made with love ❤️ as part of the Tuwaiq Academy and Google for Developers initiative"}
+        </span>
+      </footer>
     </main>
   </body>
 </html>
