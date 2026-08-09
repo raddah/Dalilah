@@ -20,70 +20,80 @@ const sources = [
     category: isArabic ? "مرجع حكومي" : "Government reference",
     name: isArabic ? "منصة التراث الثقافي" : "Cultural Heritage Platform",
     description: isArabic ? "مرجع وزارة الثقافة للتراث الثقافي والمواقع والعناصر التراثية في المملكة." : "The Ministry of Culture reference for Saudi cultural heritage, sites, and heritage elements.",
-    href: "https://heritage.moc.gov.sa/"
+    hrefAr: "https://heritage.moc.gov.sa/",
+    hrefEn: "https://heritage.moc.gov.sa/en"
   },
   {
     mark: "JH",
     category: isArabic ? "حفظ وتنمية" : "Preservation & development",
     name: isArabic ? "برنامج جدة التاريخية" : "Historic Jeddah Program",
     description: isArabic ? "يوثق جهود حماية جدة التاريخية وتأهيل مبانيها ونسيجها العمراني." : "Documents the preservation, rehabilitation, and urban fabric of Historic Jeddah.",
-    href: "https://jeddahalbalad.sa/ar"
+    hrefAr: "https://jeddahalbalad.sa/ar",
+    hrefEn: "https://jeddahalbalad.sa/"
   },
   {
     mark: "BALAD",
     category: isArabic ? "استكشاف" : "Explore",
     name: isArabic ? "جدة التاريخية" : "Visit Al Balad",
     description: isArabic ? "دليل للقصص والفعاليات والمعالم وتجارب الزائر في جدة التاريخية." : "A visitor guide to stories, events, landmarks, and experiences in Historic Jeddah.",
-    href: "https://www.visitalbalad.com/"
+    hrefAr: "https://www.visitalbalad.com/",
+    hrefEn: "https://www.visitalbalad.com/en/"
   },
   {
     mark: "2030",
     category: isArabic ? "إطار وطني" : "National framework",
     name: isArabic ? "رؤية السعودية 2030" : "Saudi Vision 2030",
     description: isArabic ? "الإطار الوطني الذي يربط الثقافة والتراث بالتنمية وجودة الحياة." : "The national framework connecting culture and heritage with development and quality of life.",
-    href: "https://www.vision2030.gov.sa/ar/explore"
+    hrefAr: "https://www.vision2030.gov.sa/ar/explore",
+    hrefEn: "https://www.vision2030.gov.sa/en/explore"
   },
   {
     mark: "JED",
     category: isArabic ? "مصدر محلي" : "Local source",
     name: isArabic ? "أمانة محافظة جدة" : "Jeddah Municipality",
     description: isArabic ? "مصدر محلي للمعلومات المدنية والمكانية والخدمات المرتبطة بمدينة جدة." : "A local source for civic, spatial, and public-service information about Jeddah.",
-    href: "https://www.jeddah.gov.sa/"
+    hrefAr: "https://www.jeddah.gov.sa/",
+    hrefEn: "https://www.jeddah.gov.sa/en/"
   },
   {
     mark: "UNESCO",
     category: isArabic ? "تراث عالمي" : "World heritage",
     name: isArabic ? "اليونسكو: العلا" : "UNESCO: AlUla",
     description: isArabic ? "توثيق دولي لتراث العلا وواحتها ومجتمعاتها والبحوث المرتبطة بها." : "International documentation of AlUla’s heritage, oasis, communities, and research.",
-    href: "https://www.unesco.org/ar/alula"
+    hrefAr: "https://www.unesco.org/ar/alula",
+    hrefEn: "https://www.unesco.org/en/alula"
   },
   {
     mark: "ALULA",
     category: isArabic ? "وجهة ثقافية" : "Cultural destination",
     name: isArabic ? "تجربة العلا" : "Experience AlUla",
     description: isArabic ? "معلومات الزائر عن المعالم والوجهات الثقافية والطبيعية في العلا." : "Visitor information about AlUla’s cultural and natural landmarks and destinations.",
-    href: "https://www.experiencealula.com/ar/places-to-go?size=n_9_n&filters%5B0%5D%5Bfield%5D=typeOfPlaces&filters%5B0%5D%5Bvalues%5D%5B0%5D=%D9%85%D8%B9%D8%A7%D9%84%D9%85%20%D8%A8%D8%A7%D8%B1%D8%B2%D8%A9&filters%5B0%5D%5Btype%5D=any&filters%5B0%5D%5Bpersistent%5D=false&sort%5B0%5D%5Bfield%5D=_score&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=recommendedRanking_double&sort%5B1%5D%5Bdirection%5D=desc"
+    hrefAr: "https://www.experiencealula.com/ar/places-to-go?size=n_9_n&filters%5B0%5D%5Bfield%5D=typeOfPlaces&filters%5B0%5D%5Bvalues%5D%5B0%5D=%D9%85%D8%B9%D8%A7%D9%84%D9%85%20%D8%A8%D8%A7%D8%B1%D8%B2%D8%A9&filters%5B0%5D%5Btype%5D=any&filters%5B0%5D%5Bpersistent%5D=false&sort%5B0%5D%5Bfield%5D=_score&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=recommendedRanking_double&sort%5B1%5D%5Bdirection%5D=desc",
+    hrefEn: "https://www.experiencealula.com/en/places-to-go"
   },
   {
     mark: "SP",
     category: isArabic ? "معرفة وطنية" : "National knowledge",
     name: isArabic ? "سعوديبيديا" : "Saudipedia",
     description: isArabic ? "موسوعة وطنية تساعد على تقديم سياق موجز عن مواقع التراث المسجلة في اليونسكو." : "A national encyclopedia providing concise context on Saudi heritage sites registered with UNESCO.",
-    href: "https://saudipedia.com/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D9%84%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%8A%D9%88%D9%86%D8%B3%D9%83%D9%88"
+    hrefAr: "https://saudipedia.com/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D9%84%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%8A%D9%88%D9%86%D8%B3%D9%83%D9%88",
+    hrefEn: "https://saudipedia.com/en/saudi-sites-on-unesco-world-heritage-list"
   },
   {
     mark: "VISIT",
     category: isArabic ? "سياحة رسمية" : "Official tourism",
     name: isArabic ? "Visit Saudi" : "Visit Saudi",
     description: isArabic ? "مرجع رسمي لاكتشاف الوجهات والتجارب السياحية في المملكة." : "The official reference for discovering destinations and tourism experiences across Saudi Arabia.",
-    href: "https://www.visitsaudi.com/"
+    hrefAr: "https://www.visitsaudi.com/ar",
+    hrefEn: "https://www.visitsaudi.com/en"
   },
   {
     mark: "WHC",
     category: isArabic ? "قائمة التراث العالمي" : "World Heritage List",
     name: isArabic ? "مركز التراث العالمي" : "World Heritage Centre",
     description: isArabic ? "القائمة المرجعية الدولية للمواقع السعودية المدرجة ضمن التراث العالمي." : "The international reference list for Saudi sites inscribed on the World Heritage List.",
-    href: "https://whc.unesco.org/ar/list/?iso=sa&search="
+    hrefAr: "https://whc.unesco.org/ar/list/?iso=sa&search=",
+    hrefEn: "https://whc.unesco.org/en/statesparties/sa"
   }
 ];
 ---
@@ -169,7 +179,7 @@ const sources = [
         </div>
         <div class="source-grid">
           {sources.map((source) => (
-            <a class="source-card" href={source.href} target="_blank" rel="noreferrer">
+            <a class="source-card" href={isArabic ? source.hrefAr : source.hrefEn} target="_blank" rel="noreferrer">
               <span class="source-mark" aria-hidden="true">{source.mark}</span>
               <span class="source-card-body"><span class="source-category">{source.category}</span><strong>{source.name}</strong><span>{source.description}</span><em>{isArabic ? "زيارة المصدر" : "Visit source"} ↗</em></span>
             </a>
