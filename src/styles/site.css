@@ -19,8 +19,10 @@
 
 .site-header, .chat-page-header { position: relative; }
 
-.brand-lockup { display: inline-flex; align-items: center; }
-.brand-lockup img { width: 104px; height: auto; display: block; }
+.brand-lockup { display: inline-flex; align-items: center; border-radius: 10px; outline: none; }
+.brand-lockup img { width: 104px; height: auto; display: block; transform-origin: center; transition: transform .24s ease, filter .24s ease; will-change: transform; }
+.brand-lockup:hover img, .brand-lockup:focus-visible img { transform: translateY(-2px) scale(1.035); filter: drop-shadow(0 7px 8px rgb(13 93 72 / 12%)); }
+.brand-lockup:focus-visible { box-shadow: 0 0 0 3px rgb(187 135 80 / 35%); }
 .site-nav { position: absolute; left: 50%; display: flex; align-items: center; gap: clamp(18px, 4vw, 54px); transform: translateX(-50%); direction: ltr; color: #5e766b; font-size: 13px; }
 .site-nav.is-arabic { direction: rtl; }
 .site-nav a { text-decoration: none; }
@@ -139,4 +141,9 @@
   .site-footer { align-items: flex-start; flex-direction: column; }
   .site-footer div { gap: 14px; }
   .footer-credit { text-align: start; line-height: 1.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-lockup img { transition: none; }
+  .brand-lockup:hover img, .brand-lockup:focus-visible img { transform: none; }
 }
