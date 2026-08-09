@@ -88,8 +88,8 @@ const aboutPath = isArabic ? "/ar/about/" : "/en/about/";
         </div>
       </section>
 
-      <footer class="site-footer">
-        <span>Dalilah Heritage Guide © 2026</span>
+      <footer class:list={["site-footer", { "is-arabic": isArabic }]}>
+        <span>{isArabic ? "دليل دليلة للتراث © 2026" : "Dalilah Heritage Guide © 2026"}</span>
         <div>
           <a href={`${aboutPath}#sources`}>{isArabic ? "المصادر" : "Sources"}</a>
           <a href="#privacy">{isArabic ? "الخصوصية" : "Privacy"}</a>

@@ -52,8 +52,8 @@ const aboutPath = isArabic ? "/ar/about/" : "/en/about/";
         <h1>{isArabic ? "اسأل دليلة" : "Ask Dalilah"}</h1>
         <ChatShell language={locale} initialMessage={query ?? ""} client:load />
       </section>
-      <footer class="site-footer">
-        <span>Dalilah Heritage Guide © 2026</span>
+      <footer class:list={["site-footer", { "is-arabic": isArabic }]}>
+        <span>{isArabic ? "دليل دليلة للتراث © 2026" : "Dalilah Heritage Guide © 2026"}</span>
         <div>
           <a href={isArabic ? "/ar/#sources" : "/en/#sources"}>{isArabic ? "المصادر" : "Sources"}</a>
           <a href={isArabic ? "/ar/#privacy" : "/en/#privacy"}>{isArabic ? "الخصوصية" : "Privacy"}</a>

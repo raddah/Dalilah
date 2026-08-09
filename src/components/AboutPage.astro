@@ -193,8 +193,8 @@ const sources = [
         <a class="primary-link" href={chatPath}>{isArabic ? "افتح المحادثة" : "Open the chat"}<span aria-hidden="true">↗</span></a>
       </section>
 
-      <footer class="site-footer">
-        <span>Dalilah Heritage Guide © 2026</span>
+      <footer class:list={["site-footer", { "is-arabic": isArabic }]}>
+        <span>{isArabic ? "دليل دليلة للتراث © 2026" : "Dalilah Heritage Guide © 2026"}</span>
         <div><a href="#sources">{isArabic ? "المصادر" : "Sources"}</a><a href={homePath}>{isArabic ? "الرئيسية" : "Home"}</a><a href={chatPath}>{isArabic ? "ابدأ الاستكشاف" : "Start exploring"}</a></div>
         <span class="footer-credit">{isArabic ? "صنع بحب ❤️ ضمن مبادرة أكاديمية طويق وقوقل للمطورين" : "Made with love ❤️ as part of the Tuwaiq Academy and Google for Developers initiative"}</span>
       </footer>
