@@ -70,6 +70,10 @@ Edit `.dev.vars` and set `GEMINI_API_KEY`. Never commit that file.
 
 ## Create Cloudflare resources
 
+For the complete infrastructure sequence and MVP completion checklist, see:
+
+[`../implementation/dalilah-project/docs/04-cloudflare-infrastructure-setup.md`](../implementation/dalilah-project/docs/04-cloudflare-infrastructure-setup.md)
+
 ```bash
 npx wrangler d1 create dalilah-db
 npx wrangler r2 bucket create dalilah-media
