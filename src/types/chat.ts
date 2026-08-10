@@ -22,7 +22,6 @@ export const ChatResponseSchema = z.object({
   confidence: z.enum(["high", "medium", "low"]),
   citations: z.array(CitationSchema),
   media: z.array(MediaAssetSchema).default([]),
-  suggestedPrompts: z.array(z.string()).max(4),
 });
 
 export type ChatResponse = z.infer<typeof ChatResponseSchema>;

@@ -117,17 +117,12 @@ export async function generateChatAnswer(
                 required: ["url", "alt", "title", "sourceTitle", "sourceUrl"],
               },
             },
-            suggestedPrompts: {
-              type: "array",
-              items: { type: "string" },
-            },
           },
           required: [
             "answer",
             "language",
             "confidence",
             "citations",
-            "suggestedPrompts",
           ],
         },
       },
