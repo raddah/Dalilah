@@ -11,6 +11,9 @@ last_verified: 2026-08-09
 stale_after: 2026-09-09
 tags: [historic-jeddah, heritage, UNESCO, red-sea]
 related_concepts: [Jeddah, Makkah, roshan, coral-architecture]
+aliases: [Historic Jeddah, Jeddah Historical Area, Al-Balad, UNESCO 1361]
+claim_scope: historical identity, heritage status, historical role, and architecture
+evidence_boundary: Do not infer current access, opening hours, events, or travel conditions.
 ---
 
 # Summary

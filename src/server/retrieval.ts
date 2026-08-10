@@ -13,15 +13,21 @@ const fallbackEvidence = [
 export async function getEvidence(db: D1Database, query: string) {
   if (!db) return fallbackEvidence.join("\n");
 
+  const aliasMatches = await db
+    .prepare("SELECT site_id FROM site_aliases WHERE alias LIKE ? LIMIT 10")
+    .bind(`%${query}%`)
+    .all<{ site_id: string }>();
+  const siteIds = aliasMatches.results.map((row) => row.site_id);
+  const siteClause = siteIds.length ? ` OR site_id IN (${siteIds.map(() => "?").join(",")})` : "";
   const result = await db
     .prepare(
       `SELECT title, url, source_type, description_ar
        FROM sources
-       WHERE title LIKE ? OR description_ar LIKE ? OR description_en LIKE ?
+       WHERE title LIKE ? OR description_ar LIKE ? OR description_en LIKE ?${siteClause}
        ORDER BY last_verified DESC
        LIMIT 5`,
     )
-    .bind(`%${query}%`, `%${query}%`, `%${query}%`)
+    .bind(`%${query}%`, `%${query}%`, `%${query}%`, ...siteIds)
     .all<SourceRow>();
 
   if (!result.results.length) return fallbackEvidence.join("\n");
@@ -43,15 +49,21 @@ export async function getRelatedMedia(
   if (!db) return [] as MediaAsset[];
 
   try {
+    const aliasMatches = await db
+      .prepare("SELECT site_id FROM site_aliases WHERE alias LIKE ? LIMIT 10")
+      .bind(`%${query}%`)
+      .all<{ site_id: string }>();
+    const siteIds = aliasMatches.results.map((row) => row.site_id);
+    const siteClause = siteIds.length ? ` OR site_id IN (${siteIds.map(() => "?").join(",")})` : "";
     const result = await db
       .prepare(
         `SELECT url, alt_ar, alt_en, title_ar, title_en, source_title_ar, source_title_en, source_url
          FROM media_assets
-         WHERE title_ar LIKE ? OR title_en LIKE ? OR alt_ar LIKE ? OR alt_en LIKE ?
+         WHERE title_ar LIKE ? OR title_en LIKE ? OR alt_ar LIKE ? OR alt_en LIKE ?${siteClause}
          ORDER BY last_verified DESC
          LIMIT 3`,
       )
-      .bind(`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`)
+      .bind(`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`, ...siteIds)
       .all<{
         url: string;
         alt_ar: string;

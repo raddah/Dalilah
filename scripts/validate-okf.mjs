@@ -39,6 +39,11 @@ for (const file of files) {
   }
   if (!/^language:\s*(ar|en)\s*$/m.test(match[1])) errors.push(`${file}: language must be ar or en`);
   if (!/^source_url:\s*https:\/\//m.test(match[1])) errors.push(`${file}: source_url must be HTTPS`);
+  if (/^type:\s*place\s*$/m.test(match[1])) {
+    if (!/^aliases:\s*\[[^\]]+\]/m.test(match[1])) errors.push(`${file}: aliases must be a non-empty list`);
+    if (!/^claim_scope:\s*.+$/m.test(match[1])) errors.push(`${file}: missing claim_scope`);
+    if (!/^evidence_boundary:\s*.+$/m.test(match[1])) errors.push(`${file}: missing evidence_boundary`);
+  }
 }
 
 if (errors.length) {
