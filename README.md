@@ -50,6 +50,12 @@ The MVP uses alias-first plus FTS5 retrieval: OKF is the canonical knowledge lay
 
 The browser never calls Gemini directly. The Astro API route retrieves trusted evidence, calls Gemini with a Worker secret, validates the structured response, stores the conversation, and returns a stable response to the chat island.
 
+## Chat response rendering
+
+- Assistant answers render safe Markdown and GitHub Flavored Markdown without executing raw HTML.
+- The UI supports headings, lists, links, tables, inline code, and fenced code blocks in RTL and LTR layouts.
+- Users can copy the original Markdown response or copy an individual code block through localized copy actions.
+
 ## Requirements
 
 - Node.js LTS.
