@@ -53,7 +53,7 @@ export async function generateChatAnswer(
   input: { message: string; evidence: string; media: MediaAsset[]; language: "ar" | "en" },
   env: GeminiEnv,
 ): Promise<ChatResponse> {
-  const model = env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = env.GEMINI_MODEL || "gemini-3.5-flash";
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
   const response = await fetch(endpoint, {
@@ -117,17 +117,12 @@ export async function generateChatAnswer(
                 required: ["url", "alt", "title", "sourceTitle", "sourceUrl"],
               },
             },
-            suggestedPrompts: {
-              type: "array",
-              items: { type: "string" },
-            },
           },
           required: [
             "answer",
             "language",
             "confidence",
             "citations",
-            "suggestedPrompts",
           ],
         },
       },

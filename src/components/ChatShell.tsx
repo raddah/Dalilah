@@ -54,7 +54,6 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
               {answer.media[0] ? <figure className="answer-media"><img src={answer.media[0].url} alt={answer.media[0].alt} /><figcaption><span>{answer.media[0].title}</span><a href={answer.media[0].sourceUrl} target="_blank" rel="noreferrer">{answer.media[0].sourceTitle} ↗</a></figcaption></figure> : null}
               <div className="answer-copy"><h2>{answer.media[0]?.title ?? (language === "ar" ? "إجابة موثقة" : "Grounded answer")}</h2><p>{answer.answer}</p></div>
               <div className="answer-sources"><div className="sources-label"><span aria-hidden="true">▧</span>{text.sources}</div><div className="source-chips">{answer.citations.map((citation) => <a href={citation.url} target="_blank" rel="noreferrer" key={citation.url}><span className={`source-chip-icon source-chip-${citation.sourceType}`} aria-hidden="true">↗</span>{citation.title}</a>)}</div></div>
-              <div className="suggested-prompts">{answer.suggestedPrompts.map((prompt) => <button type="button" onClick={() => submit(prompt)} key={prompt}>{prompt}</button>)}</div>
             </article>
           </div>
         ))}

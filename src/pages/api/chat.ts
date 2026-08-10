@@ -17,8 +17,8 @@ const errorMessages: Record<Exclude<GeminiErrorCode, "gemini_rate_limited"> | "g
     en: "Gemini authentication failed. Check the API key and its linked project.",
   },
   gemini_invalid_request: {
-    ar: "رفض Gemini صيغة الطلب. حاول مرة أخرى بسؤال أقصر.",
-    en: "Gemini rejected the request format. Try again with a shorter question.",
+    ar: "رفض Gemini إعداد الطلب. تحقق من اسم النموذج GEMINI_MODEL وصلاحية النموذج في مشروع Google المرتبط بالمفتاح.",
+    en: "Gemini rejected the request configuration. Check GEMINI_MODEL and model access in the Google project linked to the key.",
   },
   gemini_unavailable: {
     ar: "خدمة Gemini غير متاحة مؤقتًا. أعد المحاولة بعد قليل.",
