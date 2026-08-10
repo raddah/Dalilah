@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { askDalilah } from "../lib/api-client";
 import type { ChatResponse } from "../types/chat";
+import MarkdownAnswer from "./MarkdownAnswer";
 
 type Language = "ar" | "en";
 type Turn = { question: string; answer: ChatResponse };
@@ -52,7 +53,7 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
             <article className="answer-card">
               <div className="answer-label"><span className="answer-orb" aria-hidden="true">✦</span>{language === "ar" ? "دليلة" : "Dalilah"}</div>
               {answer.media[0] ? <figure className="answer-media"><img src={answer.media[0].url} alt={answer.media[0].alt} /><figcaption><span>{answer.media[0].title}</span><a href={answer.media[0].sourceUrl} target="_blank" rel="noreferrer">{answer.media[0].sourceTitle} ↗</a></figcaption></figure> : null}
-              <div className="answer-copy"><h2>{answer.media[0]?.title ?? (language === "ar" ? "إجابة موثقة" : "Grounded answer")}</h2><p>{answer.answer}</p></div>
+              <MarkdownAnswer markdown={answer.answer} language={language} title={answer.media[0]?.title ?? (language === "ar" ? "إجابة موثقة" : "Grounded answer")} />
               <div className="answer-sources"><div className="sources-label"><span aria-hidden="true">▧</span>{text.sources}</div><div className="source-chips">{answer.citations.map((citation) => <a href={citation.url} target="_blank" rel="noreferrer" key={citation.url}><span className={`source-chip-icon source-chip-${citation.sourceType}`} aria-hidden="true">↗</span>{citation.title}</a>)}</div></div>
             </article>
           </div>
