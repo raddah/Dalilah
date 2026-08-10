@@ -5,6 +5,39 @@ type GeminiEnv = {
   GEMINI_MODEL: string;
 };
 
+export type GeminiErrorCode =
+  | "gemini_rate_limited"
+  | "gemini_auth_failed"
+  | "gemini_invalid_request"
+  | "gemini_unavailable"
+  | "gemini_invalid_response";
+
+export class GeminiApiError extends Error {
+  constructor(
+    public readonly code: GeminiErrorCode,
+    public readonly status: number,
+    public readonly retryAfterSeconds?: number,
+    message: string = code,
+  ) {
+    super(message);
+    this.name = "GeminiApiError";
+  }
+}
+
+function errorCodeForStatus(status: number): GeminiErrorCode {
+  if (status === 401 || status === 403) return "gemini_auth_failed";
+  if (status === 429) return "gemini_rate_limited";
+  if (status >= 500) return "gemini_unavailable";
+  return "gemini_invalid_request";
+}
+
+function retryAfterSecondsFrom(message: string) {
+  const match = message.match(/retry in ([\d.]+)s/i);
+  if (!match) return undefined;
+  const seconds = Math.ceil(Number(match[1]));
+  return Number.isFinite(seconds) ? seconds : undefined;
+}
+
 const SYSTEM_PROMPT = `
 You are Dalilah, a trusted Saudi heritage guide.
 Answer in the user's language.
@@ -103,12 +136,19 @@ export async function generateChatAnswer(
 
   if (!response.ok) {
     const errorText = await response.text();
+    const code = errorCodeForStatus(response.status);
     console.error("gemini_request_failed", {
       status: response.status,
       model,
+      code,
       details: errorText.slice(0, 500),
     });
-    throw new Error(`Gemini returned HTTP ${response.status}`);
+    throw new GeminiApiError(
+      code,
+      response.status,
+      code === "gemini_rate_limited" ? retryAfterSecondsFrom(errorText) : undefined,
+      `Gemini returned HTTP ${response.status}`,
+    );
   }
 
   const payload = (await response.json()) as {
@@ -118,9 +158,22 @@ export async function generateChatAnswer(
   };
 
   const text = payload.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Gemini returned no text");
+  if (!text) {
+    console.error("gemini_invalid_response", { reason: "missing_text", model });
+    throw new GeminiApiError("gemini_invalid_response", 502, undefined, "Gemini returned no text");
+  }
 
-  const parsed = ChatResponseSchema.parse(JSON.parse(text));
+  let parsed: ChatResponse;
+  try {
+    parsed = ChatResponseSchema.parse(JSON.parse(text));
+  } catch (error) {
+    console.error("gemini_invalid_response", {
+      model,
+      reason: "schema_validation_failed",
+      error: error instanceof Error ? error.message.slice(0, 300) : "unknown",
+    });
+    throw new GeminiApiError("gemini_invalid_response", 502, undefined, "Gemini returned an invalid response");
+  }
   const allowedMedia = new Set(input.media.map((asset) => asset.url));
   return {
     ...parsed,
