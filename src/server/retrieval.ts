@@ -13,11 +13,16 @@ const fallbackEvidence = [
 export async function getEvidence(db: D1Database, query: string) {
   if (!db) return fallbackEvidence.join("\n");
 
-  const aliasMatches = await db
-    .prepare("SELECT site_id FROM site_aliases WHERE alias LIKE ? LIMIT 10")
-    .bind(`%${query}%`)
-    .all<{ site_id: string }>();
-  const siteIds = aliasMatches.results.map((row) => row.site_id);
+  let siteIds: string[] = [];
+  try {
+    const aliasMatches = await db
+      .prepare("SELECT site_id FROM site_aliases WHERE alias LIKE ? LIMIT 10")
+      .bind(`%${query}%`)
+      .all<{ site_id: string }>();
+    siteIds = aliasMatches.results.map((row) => row.site_id);
+  } catch {
+    // Keep the pre-alias search working until migration 0004 is deployed.
+  }
   const siteClause = siteIds.length ? ` OR site_id IN (${siteIds.map(() => "?").join(",")})` : "";
   const result = await db
     .prepare(
