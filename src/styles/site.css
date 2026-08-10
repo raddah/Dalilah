@@ -68,6 +68,15 @@
 .chat-page-content .chat-shell.is-empty .empty-answer { margin: 0 auto 22px; }
 .chat-page-content .chat-composer { width: min(760px, 100%); margin: 0 auto; }
 .chat-page-content .conversation { min-height: 340px; }
+.chat-loader { display: grid; place-items: center; gap: 12px; min-height: clamp(150px, 26vh, 240px); padding: 20px 0; color: var(--muted); font-size: 12px; text-align: center; }
+.chat-loader-mark { position: relative; display: grid; place-items: center; width: clamp(76px, 11vw, 112px); aspect-ratio: 1; }
+.chat-loader-ring, .chat-loader-mark::before { position: absolute; display: block; border-radius: 50%; content: ""; }
+.chat-loader-ring { inset: 10%; border: 1px solid #dfe8df; border-right-color: var(--gold); border-bottom-color: var(--gold); animation: dalilah-loader-spin-reverse 1.15s linear infinite; }
+.chat-loader-mark::before { inset: 0; border: 1px solid #d8c29f; border-top-color: var(--ink); border-left-color: var(--ink); animation: dalilah-loader-spin 1.8s linear infinite; }
+.chat-loader-mark img { position: relative; z-index: 1; width: 56%; height: 56%; object-fit: contain; animation: dalilah-loader-pulse 1.5s ease-in-out infinite; }
+@keyframes dalilah-loader-spin { to { transform: rotate(360deg); } }
+@keyframes dalilah-loader-spin-reverse { to { transform: rotate(-360deg); } }
+@keyframes dalilah-loader-pulse { 0%, 100% { transform: scale(.92); opacity: .72; } 50% { transform: scale(1); opacity: 1; } }
 .answer-card { max-width: min(760px, 100%); margin: 0 auto 30px; padding: 22px; border: 1px solid #dfe6df; border-radius: 4px 22px 22px 22px; background: white; box-shadow: 0 12px 28px rgb(30 57 45 / 5%); }
 .answer-label { display: flex; align-items: center; gap: 9px; margin-bottom: 18px; color: var(--ink); font-weight: 600; }
 .answer-orb { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #f1c278; color: var(--deep-ink); font-size: 13px; }
@@ -175,4 +184,5 @@
 @media (prefers-reduced-motion: reduce) {
   .brand-lockup img { transition: none; }
   .brand-lockup:hover img, .brand-lockup:focus-visible img { transform: none; }
+  .chat-loader-ring, .chat-loader-mark::before, .chat-loader-mark img { animation: none; }
 }
