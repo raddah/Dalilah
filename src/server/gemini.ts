@@ -101,7 +101,15 @@ export async function generateChatAnswer(
     }),
   });
 
-  if (!response.ok) throw new Error(`Gemini returned HTTP ${response.status}`);
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("gemini_request_failed", {
+      status: response.status,
+      model,
+      details: errorText.slice(0, 500),
+    });
+    throw new Error(`Gemini returned HTTP ${response.status}`);
+  }
 
   const payload = (await response.json()) as {
     candidates?: Array<{
