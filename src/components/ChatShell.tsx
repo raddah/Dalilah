@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { askDalilah } from "../lib/api-client";
 import type { ChatResponse } from "../types/chat";
 
@@ -16,6 +16,7 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
   const [turns, setTurns] = useState<Turn[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const initialSubmitted = useRef(false);
 
   async function submit(value = message) {
     const question = value.trim();
@@ -33,8 +34,15 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
     }
   }
 
+  useEffect(() => {
+    if (initialMessage.trim() && !initialSubmitted.current) {
+      initialSubmitted.current = true;
+      void submit(initialMessage);
+    }
+  }, [initialMessage]);
+
   return (
-    <section className="chat-shell" dir={language === "ar" ? "rtl" : "ltr"} aria-live="polite">
+    <section className={`chat-shell ${turns.length === 0 ? "is-empty" : ""}`} dir={language === "ar" ? "rtl" : "ltr"} aria-live="polite">
       <div className="conversation">
         {turns.length === 0 ? <div className="empty-answer">{text.empty}</div> : null}
         {turns.map(({ question, answer }) => (
