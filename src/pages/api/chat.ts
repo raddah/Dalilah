@@ -32,7 +32,12 @@ export const POST: APIRoute = async (context) => {
 
   try {
     const evidence = await getEvidence(appEnv.DB, body.message);
-    const media = await getRelatedMedia(appEnv.DB, body.message, body.language);
+    const media = await getRelatedMedia(
+      appEnv.DB,
+      body.message,
+      body.language,
+      new URL(context.request.url).origin,
+    );
     const answer = await generateChatAnswer(
       { message: body.message, language: body.language, evidence, media },
       appEnv,

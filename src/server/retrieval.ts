@@ -34,7 +34,12 @@ export async function getEvidence(db: D1Database, query: string) {
     .join("\n\n");
 }
 
-export async function getRelatedMedia(db: D1Database, query: string, language: "ar" | "en") {
+export async function getRelatedMedia(
+  db: D1Database,
+  query: string,
+  language: "ar" | "en",
+  origin: string,
+) {
   if (!db) return [] as MediaAsset[];
 
   try {
@@ -59,7 +64,7 @@ export async function getRelatedMedia(db: D1Database, query: string, language: "
       }>();
 
     return result.results.map((asset) => ({
-      url: asset.url,
+      url: new URL(asset.url, origin).toString(),
       alt: language === "ar" ? asset.alt_ar : asset.alt_en,
       title: language === "ar" ? asset.title_ar : asset.title_en,
       sourceTitle: language === "ar" ? asset.source_title_ar : asset.source_title_en,
