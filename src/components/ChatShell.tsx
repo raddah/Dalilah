@@ -6,8 +6,8 @@ type Language = "ar" | "en";
 type Turn = { question: string; answer: ChatResponse };
 
 const copy = {
-  ar: { empty: "اسأل دليلة عن التراث والثقافة السعودية.", placeholder: "اكتب سؤالك هنا...", send: "إرسال السؤال", requestError: "تعذر إكمال الطلب الآن", sources: "المصادر المرجعية" },
-  en: { empty: "Ask Dalilah about Saudi heritage and culture.", placeholder: "Type your question here...", send: "Send question", requestError: "Unable to complete the request right now", sources: "Reference sources" },
+  ar: { empty: "اسأل دليلة عن التراث والثقافة السعودية.", loading: "جاري البحث في المصادر...", placeholder: "اكتب سؤالك هنا...", send: "إرسال السؤال", requestError: "تعذر إكمال الطلب الآن", sources: "المصادر المرجعية" },
+  en: { empty: "Ask Dalilah about Saudi heritage and culture.", loading: "Searching trusted sources...", placeholder: "Type your question here...", send: "Send question", requestError: "Unable to complete the request right now", sources: "Reference sources" },
 } as const;
 
 export default function ChatShell({ language, initialMessage = "" }: { language: Language; initialMessage?: string }) {
@@ -58,6 +58,15 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
             </article>
           </div>
         ))}
+        {loading ? (
+          <div className="chat-loader" role="status" aria-live="polite">
+            <div className="chat-loader-mark" aria-hidden="true">
+              <span className="chat-loader-ring" />
+              <img src="/brand/Dalilah_main_logo.svg" alt="" />
+            </div>
+            <span>{text.loading}</span>
+          </div>
+        ) : null}
       </div>
       {error ? <p className="error-message">{error}</p> : null}
       <form className="chat-composer" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
