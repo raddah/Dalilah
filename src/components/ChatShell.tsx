@@ -26,6 +26,7 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
     try {
       const answer = await askDalilah(question, language);
       setTurns((current) => [...current, { question, answer }]);
+      setError("");
       setMessage("");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : text.requestError);
@@ -60,7 +61,7 @@ export default function ChatShell({ language, initialMessage = "" }: { language:
       </div>
       {error ? <p className="error-message">{error}</p> : null}
       <form className="chat-composer" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
-        <input value={message} onChange={(event) => setMessage(event.target.value)} placeholder={text.placeholder} aria-label={text.send} maxLength={4000} />
+        <input value={message} onChange={(event) => { setMessage(event.target.value); if (error) setError(""); }} placeholder={text.placeholder} aria-label={text.send} maxLength={4000} />
         <button type="submit" disabled={loading} aria-label="Send message">{loading ? "..." : "➤"}</button>
       </form>
     </section>
