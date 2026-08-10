@@ -4,6 +4,7 @@ title: ad-Dir'iyah — Birthplace of the First Saudi State & At-Turaif UNESCO Si
 language: en
 type: place
 source_url: https://www.visitsaudi.com/en/see-do/destinations/diriyah
+source_id: source.visitsaudi.diriyah
 source_type: official
 source_credibility: high
 verified: true
@@ -12,6 +13,7 @@ stale_after: 2027-08-11
 tags: [diriyah, at-turaif, bujairi, heritage, unesco, najdi-architecture, riyadh]
 related_concepts: [salwa-palace, first-saudi-state, wadi-hanifa, mudbrick-architecture]
 aliases: [ad-Diriyah, Diriyah, Historic Diriyah, At-Turaif District, Bujairi Terrace]
+claim_ids: [claim.diriyah.first-state]
 claim_scope: Historical capital of the First Saudi State, Najdi mudbrick architecture, At-Turaif UNESCO citadel, and Bujairi Terrace dining enclave
 evidence_boundary: Derived from official Visit Saudi, UNESCO World Heritage, and Diriyah Gate Development Authority (DGDA) portals.
 ---

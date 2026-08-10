@@ -34,10 +34,10 @@ Cloudflare projection
 ├── D1 for entities, relationships, sources, and conversations
 ├── R2 for original images and documents
 ├── KV for cache and sessions
-└── Vectorize for semantic retrieval when the corpus grows
+└── Vectorize corpus prepared but runtime integration deferred
 ```
 
-The MVP uses a lightweight hybrid retrieval design: OKF is the canonical knowledge layer, D1 stores operational projections and relationships, Vectorize finds relevant records, R2 serves media, and Gemini generates the answer from verified context.
+The MVP uses alias-first plus FTS5 retrieval: OKF is the canonical knowledge layer, an automated projector upserts D1 entities and claim-level provenance, R2 serves approved media, and Gemini generates answers only from verified context. Vectorize is intentionally not a runtime dependency yet.
 
 ## Internationalization
 
@@ -137,9 +137,19 @@ https://YOUR_DOMAIN/api/health
 6. Display citations with every factual answer.
 7. Return insufficient evidence instead of guessing.
 
+Build and validate the complete knowledge projection:
+
+```bash
+npm run build:knowledge
+npx wrangler d1 migrations apply dalilah-db --local
+npx wrangler d1 execute dalilah-db --local --file generated/okf-projection.sql
+```
+
+`knowledge-base/okf/catalog.json` is the machine-readable source of truth. Important facts use stable claim IDs, and `knowledge_projection_runs` records the exact catalog SHA-256 applied to D1.
+
 ## Current MVP limitation
 
-The starter retrieval function uses a simple D1 keyword search. Add Vectorize after the basic conversation flow is stable. Vectorize should store embeddings with metadata pointing back to D1 records, OKF IDs, and R2 object keys.
+Retrieval uses aliases and D1 FTS5 rather than semantic embeddings. `generated/vectorize-corpus.ndjson` prepares stable claim records and metadata, but embeddings, index creation, runtime bindings, and hybrid ranking remain deferred until the corpus and evaluation set justify them.
 
 ## Admin and BaaS decision
 

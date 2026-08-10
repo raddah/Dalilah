@@ -6,6 +6,7 @@ type SourceRow = {
   city: string | null;
   category: string | null;
   site_description_ar: string | null;
+  site_description_en: string | null;
   latitude: number | null;
   longitude: number | null;
   title: string;
@@ -13,6 +14,7 @@ type SourceRow = {
   source_type: "official" | "unesco" | "open_data" | "supporting";
   description_ar: string | null;
   description_en: string | null;
+  verified_claims: string | null;
 };
 
 const fallbackEvidence = [
@@ -86,13 +88,17 @@ const sourceSelect = `
     st.city,
     st.category,
     st.description_ar AS site_description_ar,
+    st.description_en AS site_description_en,
     st.latitude,
     st.longitude,
     s.title,
     s.url,
     s.source_type,
     s.description_ar,
-    s.description_en
+    s.description_en,
+    (SELECT group_concat('[' || kc.id || '] ' || kc.claim_text, char(10))
+     FROM knowledge_claims kc
+     WHERE kc.source_id = s.id AND kc.verified = 1) AS verified_claims
   FROM sources s
   JOIN sites st ON st.id = s.site_id`;
 
@@ -185,7 +191,7 @@ function formatEvidence(sources: SourceRow[]) {
   return sources
     .map(
       (source) =>
-        `Source ID: ${source.source_id}\nSite ID: ${source.site_id}\nPlace (Arabic): ${source.name_ar}\nPlace (English): ${source.name_en ?? ""}\nCity: ${source.city ?? ""}\nCategory: ${source.category ?? ""}\nCoordinates: ${source.latitude ?? ""}, ${source.longitude ?? ""}\nVerified site context: ${source.site_description_ar ?? ""}\nSource title: ${source.title}\nSource URL: ${source.url}\nSource type: ${source.source_type}\nArabic source description: ${source.description_ar ?? ""}\nEnglish source description: ${source.description_en ?? ""}`,
+        `Source ID: ${source.source_id}\nSite ID: ${source.site_id}\nPlace (Arabic): ${source.name_ar}\nPlace (English): ${source.name_en ?? ""}\nCity: ${source.city ?? ""}\nCategory: ${source.category ?? ""}\nCoordinates: ${source.latitude ?? ""}, ${source.longitude ?? ""}\nArabic site context: ${source.site_description_ar ?? ""}\nEnglish site context: ${source.site_description_en ?? ""}\nVerified claims:\n${source.verified_claims ?? ""}\nSource title: ${source.title}\nSource URL: ${source.url}\nSource type: ${source.source_type}\nArabic source description: ${source.description_ar ?? ""}\nEnglish source description: ${source.description_en ?? ""}`,
     )
     .join("\n\n");
 }
