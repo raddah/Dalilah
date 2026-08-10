@@ -1,5 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { loadCatalog } from "./lib/okf-catalog.mjs";
 
 const rootPath = join(process.cwd(), "knowledge-base", "okf");
 const required = [
@@ -50,4 +51,5 @@ if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`OKF validation passed for ${files.length} Markdown records.`);
+const { catalog, sha256 } = await loadCatalog();
+console.log(`OKF validation passed for ${files.length} Markdown records and ${catalog.sites.length} catalog sites (${sha256.slice(0, 12)}).`);

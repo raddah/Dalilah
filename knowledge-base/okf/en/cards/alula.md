@@ -4,6 +4,7 @@ title: AlUla — Crossroads of Civilizations & Living Open-Air Museum
 language: en
 type: place
 source_url: https://www.visitsaudi.com/en/alula
+source_id: source.visitsaudi.alula
 source_type: official
 source_credibility: high
 verified: true
@@ -12,6 +13,7 @@ stale_after: 2027-08-11
 tags: [alula, heritage, visit-saudi, hegra, old-town, dadan, jabal-ikmah, maraya]
 related_concepts: [nabataeans, lihyanites, elephant-rock, winter-at-tantora, azimuth, alula-moments]
 aliases: [AlUla, Al-Ula, AlUla Oasis, Ancient AlUla]
+claim_ids: [claim.alula.location, claim.alula.major-sites]
 claim_scope: Key attractions, heritage sites, accommodation options, transit, annual festivals, and practical travel guidance
 evidence_boundary: Based on official Visit Saudi and AlUla Moments publications; does not infer fluctuating ticket costs or real-time flight availability.
 ---

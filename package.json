@@ -12,7 +12,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "cf-typegen": "wrangler types",
-    "validate:okf": "node scripts/validate-okf.mjs"
+    "validate:okf": "node scripts/validate-okf.mjs",
+    "project:okf": "node scripts/project-okf.mjs",
+    "prepare:vectorize": "node scripts/build-vectorize-corpus.mjs",
+    "build:knowledge": "npm run validate:okf && npm run project:okf && npm run prepare:vectorize"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.2.0",

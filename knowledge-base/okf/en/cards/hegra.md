@@ -4,6 +4,7 @@ title: Hegra Archaeological Site — Saudi Arabia's First UNESCO World Heritage 
 language: en
 type: place
 source_url: https://www.visitsaudi.com/en/alula/attractions/a-carved-phenomenon-envisioning-the-past
+source_id: source.visitsaudi.hegra
 source_type: official
 source_credibility: high
 verified: true
@@ -12,6 +13,7 @@ stale_after: 2027-08-11
 tags: [hegra, madain-salih, nabataeans, unesco, alula, rock-cut-tombs]
 related_concepts: [qasr-al-farid, qasr-al-sani, jabal-ithlib, al-diwan, rock-architecture]
 aliases: [Hegra, Al-Hijr, Madain Salih, Hegra UNESCO Site]
+claim_ids: [claim.hegra.unesco-first]
 claim_scope: Monumental Nabataean rock-cut tombs, archaeological preservation, and UNESCO designation
 evidence_boundary: Derived from official UNESCO and Visit Saudi documentation; does not state real-time tour schedules or daily ticket inventory.
 ---
