@@ -10,7 +10,8 @@
 
 <p align="center">
   <a href="https://dalilah.rha.sa/">Live demo</a> ·
-  <a href="https://github.com/raddah/Dalilah/releases/tag/v0.1.0">Latest release</a>
+  <a href="https://github.com/raddah/Dalilah/releases/tag/v0.1.0">Latest release</a> ·
+  <a href="README.ar.md">العربية</a>
 </p>
 
 ## Overview
@@ -264,3 +265,39 @@ https://YOUR_DOMAIN/api/health
 ## Release
 
 The current MVP release is [v0.1.0](https://github.com/raddah/Dalilah/releases/tag/v0.1.0).
+
+## Sources, models, and research references
+
+### Dalilah OKF knowledge layer
+
+Dalilah uses a versioned bilingual knowledge layer based on Markdown, YAML frontmatter, and a validated JSON catalog. The project’s OKF implementation keeps each claim linked to a source URL, verification metadata, and a stable claim ID.
+
+- [Dalilah OKF Knowledge Base](knowledge-base/okf/README.md)
+- [Knowledge Base Catalog](knowledge-base/okf/catalog.json)
+- [Trusted Source Inventory](knowledge-base/okf/en/01-source-inventory.md)
+
+### Open Knowledge Format (OKF)
+
+- [Introducing the Open Knowledge Format — Google Cloud](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing)
+- [OKF v0.2 Adds Trust Signals — Google Cloud](https://cloud.google.com/blog/products/data-analytics/okf-v0-2-adds-trust-signals)
+- [Open Knowledge Format v0.2 Specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
+- [GoogleCloudPlatform Knowledge Catalog — OKF Repository](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf)
+
+### Google AI and model references
+
+- [Google AI Studio Quickstart](https://ai.google.dev/gemini-api/docs/ai-studio-quickstart)
+- [Gemini API Reference](https://ai.google.dev/api)
+- [Gemini 3.5 Flash Model Documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash)
+- [Gemini Structured Outputs](https://ai.google.dev/gemini-api/docs/structured-output)
+- [Gemini: A Family of Highly Capable Multimodal Models](https://arxiv.org/abs/2312.11805)
+
+The configured model is `gemini-3.5-flash`, controlled through the `GEMINI_MODEL` environment variable. No embedding model is used at runtime yet; the Vectorize corpus is prepared for a future phase.
+
+### Retrieval and database references
+
+- [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)
+- [SQLite FTS5 Extension](https://sqlite.org/fts5.html)
+
+### Community reference
+
+- [OKF + RAG: The Ultimate AI Agent Architecture](https://medium.com/@ravishkhullar/okf-rag-the-ultimate-ai-agent-architecture-26b9ceed44f1)
