@@ -1,69 +1,134 @@
-# Dalilah App
+# Dalilah · Heritage Intelligence
 
-A bilingual, grounded Saudi heritage assistant built with Astro Full-stack, React Islands, Cloudflare Workers, and Gemini.
+<p align="center">
+  <img src="docs/assets/dalilah-demo-ar-en.gif" alt="Dalilah bilingual Arabic and English demo" />
+</p>
 
-The public experience is available at `/ar/` and `/en/`. Arabic uses RTL layout and English uses LTR layout. The chat sends the selected language to Gemini and returns a structured answer in that language.
+<p align="center">
+  A bilingual, source-grounded Saudi heritage assistant for discovering history, architecture, culture, and places across the Kingdom.
+</p>
+
+<p align="center">
+  <a href="https://dalilah.rha.sa/">Live demo</a> ·
+  <a href="https://github.com/raddah/Dalilah/releases/tag/v0.1.0">Latest release</a>
+</p>
+
+## Overview
+
+Dalilah provides Arabic and English answers about Saudi heritage. Each response is generated from retrieved, verified evidence instead of open-ended model knowledge. The application presents citations, preserves the selected language, and returns a clear fallback when the available evidence is insufficient.
+
+The public experience is available at `/ar/` and `/en/`:
+
+- Arabic uses RTL layout, Arabic metadata, and Arabic answers.
+- English uses LTR layout, English metadata, and English answers.
+- The browser never calls Gemini directly; the server-side API route handles retrieval, model access, validation, and conversation storage.
+
+## Key capabilities
+
+- Bilingual Arabic-English landing, chat, and about experiences.
+- Alias-first and D1 FTS5 retrieval over a curated heritage knowledge base.
+- Structured Gemini responses with confidence and traceable citations.
+- Safe Markdown and GitHub-Flavored Markdown rendering.
+- Private R2 delivery for approved heritage media.
+- D1 persistence for entities, sources, claims, relationships, and conversations.
+- KV namespaces for cache and session-related data.
+- Versioned knowledge content maintained in GitHub and projected into runtime storage.
+
+## Technology stack
+
+| Layer | Technology | Role |
+| --- | --- | --- |
+| Web framework | Astro 7 + Astro Cloudflare adapter | Full-stack pages, server rendering, and deployment target |
+| UI | React 19 islands | Interactive chat experience |
+| Language | TypeScript | Application and runtime types |
+| AI | Gemini API | Structured answers from retrieved evidence |
+| Compute | Cloudflare Workers | Server-side API and edge runtime |
+| Database | Cloudflare D1 | Sources, entities, claims, relationships, and conversations |
+| Object storage | Cloudflare R2 | Approved images and documents |
+| Cache and sessions | Cloudflare KV | Low-latency cached and session-oriented data |
+| Knowledge layer | Markdown, YAML frontmatter, and JSON catalog | Human-readable, reviewable source of truth |
+| Tooling | Wrangler, Vitest, Astro Check | Development, deployment, testing, and validation |
 
 ## Architecture
 
-```text
-Astro
-├── Public website pages
-├── React Island for the chat interface
-├── Server API routes
-└── Cloudflare adapter
+This diagram is written in Mermaid so it can be rendered in GitHub README pages and Obsidian.
 
-Cloudflare Workers
-├── Gemini API integration
-├── D1 for trusted sources and conversations
-├── R2 for images and documents
-├── KV for cache and sessions
-└── Vectorize later for semantic RAG
+```mermaid
+flowchart TB
+    Visitor["Visitor<br/>Arabic or English"] --> Astro["Astro application<br/>SSR + React chat island"]
+    Astro --> Worker["Cloudflare Worker<br/>Astro Cloudflare adapter"]
+
+    Worker --> Retrieval["Retrieval layer<br/>Aliases + D1 FTS5"]
+    Retrieval --> D1["Cloudflare D1<br/>Evidence, claims, conversations"]
+    Worker --> Gemini["Gemini API<br/>Structured answer generation"]
+    Worker --> R2["Cloudflare R2<br/>Approved heritage media"]
+    Worker --> KV["Cloudflare KV<br/>Cache and sessions"]
+
+    Retrieval --> Context["Verified context<br/>and source metadata"]
+    Context --> Gemini
+    Gemini --> Response["Validated response<br/>Citations + safe Markdown"]
+    Response --> Astro
 ```
 
-## Final MVP architecture
+### Runtime request flow
 
-```text
-OKF in GitHub
-├── Human-readable Markdown and YAML frontmatter
-├── Verified sources and freshness metadata
-├── Arabic and English content
-└── Relationships between sites, sources, and media
+```mermaid
+sequenceDiagram
+    participant U as Visitor
+    participant UI as Astro + React island
+    participant API as Worker API route
+    participant DB as D1 retrieval
+    participant AI as Gemini API
+    participant Store as D1 conversation store
 
-Cloudflare projection
-├── D1 for entities, relationships, sources, and conversations
-├── R2 for original images and documents
-├── KV for cache and sessions
-└── Vectorize corpus prepared but runtime integration deferred
+    U->>UI: Submit Arabic or English question
+    UI->>API: Send language, message, and conversation context
+    API->>DB: Resolve aliases and search trusted evidence
+    DB-->>API: Return matching claims and source metadata
+    API->>AI: Send only the verified context
+    AI-->>API: Return structured answer and citations
+    API->>API: Validate response schema and citation IDs
+    API->>Store: Persist the conversation
+    API-->>UI: Return localized Markdown response
+    UI-->>U: Render answer, citations, and copy actions
 ```
 
-The MVP uses alias-first plus FTS5 retrieval: OKF is the canonical knowledge layer, an automated projector upserts D1 entities and claim-level provenance, R2 serves approved media, and Gemini generates answers only from verified context. Vectorize is intentionally not a runtime dependency yet.
+### Knowledge projection flow
 
-## Internationalization
+```mermaid
+flowchart LR
+    GitHub["Versioned OKF content<br/>Markdown + YAML"] --> Validate["Validate catalog<br/>and source metadata"]
+    Validate --> Project["Build projection<br/>and claim provenance"]
+    Project --> D1["D1<br/>Entities, claims, sources"]
+    Project --> R2["R2<br/>Approved media objects"]
+    Project --> Vector["Vectorize corpus<br/>Prepared for later use"]
+    D1 --> Runtime["Worker retrieval at runtime"]
+    R2 --> Runtime
+```
 
-- Arabic route: `/ar/`
-- English route: `/en/`
-- Arabic pages use `lang="ar"` and `dir="rtl"`.
-- English pages use `lang="en"` and `dir="ltr"`.
-- SEO metadata and alternate language links are generated per route.
-- Sites should provide Arabic and English titles and descriptions in OKF.
+## Project structure
 
-The browser never calls Gemini directly. The Astro API route retrieves trusted evidence, calls Gemini with a Worker secret, validates the structured response, stores the conversation, and returns a stable response to the chat island.
-
-## Chat response rendering
-
-- Assistant answers render safe Markdown and GitHub Flavored Markdown without executing raw HTML.
-- The UI supports headings, lists, links, tables, inline code, and fenced code blocks in RTL and LTR layouts.
-- Users can copy the original Markdown response or copy an individual code block through localized copy actions.
+```text
+src/
+├── components/       Astro pages and React chat island
+├── pages/             Localized routes and server API routes
+├── server/            Retrieval, Gemini, and conversation services
+└── env.d.ts           Cloudflare binding types
+knowledge-base/       Curated Arabic-English heritage knowledge
+migrations/           D1 schema and data migrations
+scripts/               Validation and knowledge projection utilities
+public/                Brand assets and public images
+wrangler.jsonc         Cloudflare Worker and binding configuration
+```
 
 ## Requirements
 
 - Node.js LTS.
 - A Cloudflare account.
-- A Gemini API key from Google AI Studio or Google Cloud.
 - Wrangler authentication.
+- A Gemini API key from Google AI Studio or Google Cloud.
 
-## Local setup
+## Local development
 
 ```bash
 npm install
@@ -72,78 +137,73 @@ npx wrangler login
 npm run dev
 ```
 
-Edit `.dev.vars` and set `GEMINI_API_KEY`. Never commit that file.
+Set the local secrets in `.dev.vars`:
 
-## Create Cloudflare resources
+```dotenv
+GEMINI_API_KEY="replace-me"
+GEMINI_MODEL="gemini-3.5-flash"
+```
 
-For the complete infrastructure sequence and MVP completion checklist, see:
+Never commit `.dev.vars`, `.env`, or API keys.
 
-[`../implementation/dalilah-project/docs/04-cloudflare-infrastructure-setup.md`](../implementation/dalilah-project/docs/04-cloudflare-infrastructure-setup.md)
+## Cloudflare Worker setup
+
+Wrangler is the project CLI used to develop, configure, and deploy the Worker. The repository already contains `wrangler.jsonc` with the Worker name, compatibility date, assets, observability, D1, R2, and KV bindings.
+
+Create a new Worker project when starting from an empty directory:
+
+```bash
+npm create cloudflare@latest
+```
+
+For this repository, install dependencies and authenticate locally:
+
+```bash
+npm install
+npx wrangler login
+```
+
+Create or connect the Cloudflare resources:
 
 ```bash
 npx wrangler d1 create dalilah-db
 npx wrangler r2 bucket create dalilah-media
 npx wrangler kv namespace create CACHE
+npx wrangler kv namespace create SESSION
 ```
 
-Copy the returned IDs into `wrangler.jsonc`, then generate the binding types:
+Copy the returned IDs into `wrangler.jsonc`, then generate Cloudflare binding types:
 
 ```bash
 npm run cf-typegen
 ```
 
-Apply the database migration locally:
+Apply D1 migrations locally:
 
 ```bash
 npx wrangler d1 migrations apply dalilah-db --local
 ```
 
-Apply it remotely only after reviewing the target environment:
+Apply migrations to the remote database only after reviewing the target environment:
 
 ```bash
 npx wrangler d1 migrations apply dalilah-db --remote
 ```
 
-## Gemini production secret
+Set production secrets through Wrangler:
 
 ```bash
 npx wrangler secret put GEMINI_API_KEY
 npx wrangler secret put GEMINI_MODEL
 ```
 
-The model is configurable because model availability and names can change. Verify the selected model before production deployment.
+## Knowledge workflow
 
-## Run checks
-
-```bash
-npm run check
-npm run typecheck
-npm run build
-```
-
-## Deploy
-
-```bash
-npm run deploy
-```
-
-After deployment, verify:
-
-```text
-https://YOUR_DOMAIN/api/health
-```
-
-## Trusted data workflow
-
-1. Collect only approved sources such as the Saudi Heritage Commission, Visit Saudi, UNESCO, and Saudi government open data.
-2. Store source metadata and searchable descriptions in D1.
-3. Store original images and documents in R2.
-4. Add image keys and source IDs to the content model.
-5. Retrieve relevant evidence before calling Gemini.
-6. Display citations with every factual answer.
-7. Return insufficient evidence instead of guessing.
-
-Build and validate the complete knowledge projection:
+1. Add or update approved heritage content in `knowledge-base/okf/`.
+2. Keep source metadata, language variants, claims, and relationships explicit.
+3. Validate the catalog and build the runtime projection.
+4. Review the generated D1 and media changes before applying them.
+5. Retrieve evidence before calling Gemini and return citations with every factual answer.
 
 ```bash
 npm run build:knowledge
@@ -151,31 +211,56 @@ npx wrangler d1 migrations apply dalilah-db --local
 npx wrangler d1 execute dalilah-db --local --file generated/okf-projection.sql
 ```
 
-`knowledge-base/okf/catalog.json` is the machine-readable source of truth. Important facts use stable claim IDs, and `knowledge_projection_runs` records the exact catalog SHA-256 applied to D1.
+`knowledge-base/okf/catalog.json` is the machine-readable catalog. Stable claim IDs and source IDs make projections reproducible and auditable.
 
-## Current MVP limitation
+## Validation
 
-Retrieval uses aliases and D1 FTS5 rather than semantic embeddings. `generated/vectorize-corpus.ndjson` prepares stable claim records and metadata, but embeddings, index creation, runtime bindings, and hybrid ranking remain deferred until the corpus and evaluation set justify them.
+```bash
+npm run check
+npm run typecheck
+npm test
+npm run build
+```
 
-## Admin and BaaS decision
+## Deployment
 
-An Admin page and an external BaaS are intentionally out of scope for the MVP.
+The deployment script builds the Astro application and deploys the generated Worker bundle:
 
-Knowledge is curated in OKF files through GitHub pull requests, validated, and projected into D1, R2, and Vectorize. Cloudflare Workers, D1, R2, KV, and Vectorize provide the backend services required for the MVP, so Firebase or Supabase is not required.
+```bash
+npm run deploy
+```
 
-Add an Admin page later when non-technical editors need to manage sources, images, freshness, moderation, or users.
+After deployment, verify the health endpoint:
 
-## Project references
+```text
+https://YOUR_DOMAIN/api/health
+```
 
-- `../implementation/ASTRO_FULL_STACK_EXECUTION_PLAN.md` contains the complete English execution plan.
-- `../implementation/architecture.mmd` contains the architecture diagram source.
-- `../knowledge-base/` contains the current source policy and content model.
+## Current scope and limitations
 
-## Security rules
+- Runtime retrieval currently uses aliases and D1 FTS5 rather than semantic embeddings.
+- `generated/vectorize-corpus.ndjson` prepares stable records for a future Vectorize integration.
+- An Admin page and external BaaS are outside the current MVP scope.
+- Knowledge is curated through version-controlled files and GitHub review.
 
-- Never commit `.dev.vars`, `.env`, or API keys.
-- Never expose the Gemini key in public environment variables.
-- Validate every request body.
-- Limit message and upload sizes.
+## Security principles
+
+- Keep Gemini credentials server-side in Worker secrets.
+- Validate request bodies and limit message and upload sizes.
 - Keep R2 private unless a public asset is explicitly approved.
-- Do not let Gemini create citations that are not present in the evidence set.
+- Do not allow the model to invent citations outside the retrieved evidence set.
+- Return an insufficient-evidence response instead of guessing.
+
+## Official Cloudflare references
+
+- [Workers getting started](https://developers.cloudflare.com/workers/get-started/)
+- [Install and update Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
+- [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/)
+- [Wrangler commands](https://developers.cloudflare.com/workers/wrangler/commands/)
+- [D1 getting started](https://developers.cloudflare.com/d1/get-started/)
+- [R2 Workers API](https://developers.cloudflare.com/r2/get-started/workers-api/)
+- [Workers KV getting started](https://developers.cloudflare.com/kv/get-started/)
+
+## Release
+
+The current MVP release is [v0.1.0](https://github.com/raddah/Dalilah/releases/tag/v0.1.0).
